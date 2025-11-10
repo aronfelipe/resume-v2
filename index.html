@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felipe Aron Nudelman - Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #111111;
+            --accent: #ffffff;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --text-muted: #666666;
+            --border: #222222;
+            --glow: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .lang-hidden {
+            display: none !important;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .name-title {
+            flex: 1;
+        }
+
+        .name {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .contact-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .contact-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: var(--text-primary);
+        }
+
+        .section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 15px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .skill-item {
+            padding: 12px 16px;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--glow), transparent);
+            transition: left 0.5s;
+        }
+
+        .skill-item:hover::before {
+            left: 100%;
+        }
+
+        .skill-item:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .experience-item {
+            margin-bottom: 35px;
+            padding: 20px;
+            background: var(--secondary-bg);
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            page-break-inside: avoid;
+        }
+
+        .experience-item:hover {
+            border-left-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .job-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .date {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .company {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .description ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .description li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .description li::before {
+            content: '▹';
+            position: absolute;
+            left: -15px;
+            color: var(--text-muted);
+        }
+
+        .education-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--secondary-bg);
+            border-radius: 6px;
+            page-break-inside: avoid;
+        }
+
+        .degree {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .institution {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .education-details {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        .award {
+            padding: 20px;
+            background: var(--secondary-bg);
+            border-left: 3px solid var(--accent);
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+            page-break-inside: avoid;
+        }
+
+        .award-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .award-title::before {
+            content: '🏆';
+            margin-right: 10px;
+        }
+
+        .award-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+
+        .btn.active {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+
+        .glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: 10%;
+            left: 10%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .glow-2 {
+            bottom: 10%;
+            right: 10%;
+            animation: float 18s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .contact-info {
+                text-align: left;
+            }
+
+            .name {
+                font-size: 32px;
+            }
+
+            .controls {
+                top: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: #000 !important;
+            }
+
+            .controls {
+                display: none !important;
+            }
+
+            .glow, .glow-1, .glow-2 {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 15mm;
+            }
+
+            .name {
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+            .section-title, .job-title, .degree, .award-title {
+                color: #000 !important;
+            }
+
+            .title, .company, .institution, .description, .award-description, .education-details, .contact-item {
+                color: #333 !important;
+            }
+
+            .date, .text-muted {
+                color: #666 !important;
+            }
+
+            .experience-item, .education-item, .award, .skill-item {
+                background: white !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .header::after {
+                background: #000 !important;
+            }
+
+            .section-title::after {
+                background: #ddd !important;
+            }
+
+            .skill-item {
+                color: #333 !important;
+            }
+
+            .description li::before {
+                color: #666 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="controls">
+        <button class="btn" id="pdfBtn">Export PDF</button>
+        <div class="language-toggle">
+            <button class="btn active" id="enBtn" onclick="switchLang('en')">EN</button>
+            <button class="btn" id="ptBtn" onclick="switchLang('pt')">PT</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ENGLISH VERSION -->
+        <div class="lang-content" id="lang-en" data-lang="en">
+            <div class="header">
+                <div class="name-title">
+                    <h1 class="name">FELIPE ARON NUDELMAN</h1>
+                    <p class="title">Computer Engineering | Software Development | Blockchain & Cybersecurity</p>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">+55 11 98332-0296</div>
+                    <div class="contact-item">
+                        <a href="mailto:felipe.nudelman@gmail.com">felipe.nudelman@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <a href="https://linkedin.com/in/felipenudelman" target="_blank">linkedin.com/in/felipenudelman</a>
+                    </div>
+                    <div class="contact-item">
+                        <a href="https://github.com/aronfelipe" target="_blank">github.com/aronfelipe</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Professional Summary</h2>
+                <div class="description">
+                    Computer Engineer with deep expertise in software development, cybersecurity, and blockchain technologies. My professional journey began at age 16, sparking my passion for secure, efficient technology solutions. I founded and led a Computer Engineering and Blockchain team at Insper, securing first place at BTG Pactual Code Challenge. I have experience in DeFi platforms, smart contracts, and full-stack development with proven ability to deliver scalable solutions for fintech and technology sectors.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Professional Experience</h2>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Junior Cloud Engineer</div>
+                        <div class="date">Aug 2025 - Sep 2025</div>
+                    </div>
+                    <div class="company">Charla | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Led the new Ops, Cloud and Infrastructure area at Charla</li>
+                            <li>Developed deployment automation tools for AWS, Azure and GCP</li>
+                            <li>Conducted AWS SkillBuilder training sessions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Research and Data Analyst</div>
+                        <div class="date">Apr 2025 - Jun 2025</div>
+                    </div>
+                    <div class="company">TGT - Powered by ISG | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Led technology initiatives for ISG research projects (IPL, ISG Provider Lens)</li>
+                            <li>Built web scraping and data automation tools</li>
+                            <li>Collaborated with sales team to develop Central TGT, a PowerBI-like solution for client organization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Software Engineer</div>
+                        <div class="date">Jul 2022 - Oct 2022</div>
+                    </div>
+                    <div class="company">eNor Digital Assets | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Architected advanced blockchain processes and algorithmic trading strategies using Node.js, Ethereum, and Polygon networks</li>
+                            <li>Implemented cybersecurity protocols improving system security by 35%</li>
+                            <li>Optimized processes through automation and smart contracts, achieving 25% cost reduction</li>
+                            <li>Built real-time market data processing systems handling 10,000+ transactions per second</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Summer Intern - Cloud & Engineering</div>
+                        <div class="date">Dec 2020 - Jan 2021</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Developed Pactual Overflow, an internal Stack Overflow-inspired platform using Node.js and Next.js, serving 500+ users</li>
+                            <li>Implemented robust cybersecurity solutions for data protection and cloud security infrastructure</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Winter Intern - Cybersecurity (Yellow Team)</div>
+                        <div class="date">Jun 2020 - Aug 2020</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Automated cloud security processes using Python and AWS, enhancing security posture by 30%</li>
+                            <li>Enhanced identity and access management with zero-trust security principles</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Summer Intern - Cybersecurity (Yellow Team)</div>
+                        <div class="date">Dec 2019 - Feb 2020</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Automated IAM processes, optimizing authentication and access control systems</li>
+                            <li>Developed access control solutions using AWS and Microsoft Azure with significant cost reductions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Technology Analyst and Director</div>
+                        <div class="date">Jan 2017 - Dec 2020</div>
+                    </div>
+                    <div class="company">Blockchain Insper | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Led development of Blockchain Insper Core supporting Ethereum, Stellar, and IPFS protocols</li>
+                            <li>Created blockchain education curriculum reaching 5,000+ viewers</li>
+                            <li>Managed technical team of 12+ developers in cutting-edge blockchain initiatives</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Software Development Intern</div>
+                        <div class="date">Dec 2017 - Jan 2019</div>
+                    </div>
+                    <div class="company">Instituto Nacional de Resíduos | São Paulo, Brazil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Developed comprehensive budgeting platform for recycling services, improving efficiency by 40%</li>
+                            <li>Built automated reporting systems and data analytics dashboards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Education</h2>
+                <div class="education-item">
+                    <div class="degree">Bachelor of Computer Engineering</div>
+                    <div class="institution">Insper Instituto de Ensino e Pesquisa – São Paulo, Brazil</div>
+                    <div class="date">Completed November 2024</div>
+                    <div class="education-details">
+                        Specialized in Natural Language Processing (NLP) and Machine Learning. Developed innovative projects including trading bots and sentiment analysis classifiers. Hands-on experience with VHDL programming and FPGA implementation. Capstone project on distributed blockchain systems with focus on scalability and security optimization.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Awards & Recognition</h2>
+                <div class="award">
+                    <div class="award-title">BTG Pactual Code Challenge – 1st Place Winner</div>
+                    <div class="award-description">
+                        Developed an innovative blockchain-based derivatives trading platform utilizing JavaScript, Node.js, IPFS, and Ethereum. Demonstrated advanced understanding of decentralized finance principles and scalable architecture design, competing against 200+ teams from top universities across Brazil.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">JavaScript / TypeScript</div>
+                    <div class="skill-item">Python</div>
+                    <div class="skill-item">Solidity</div>
+                    <div class="skill-item">React / Next.js</div>
+                    <div class="skill-item">Node.js</div>
+                    <div class="skill-item">AWS / Azure / GCP</div>
+                    <div class="skill-item">Blockchain / Web3</div>
+                    <div class="skill-item">Cybersecurity</div>
+                    <div class="skill-item">Machine Learning / NLP</div>
+                    <div class="skill-item">DevOps / CI/CD</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Languages</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">Portuguese (Native)</div>
+                    <div class="skill-item">English (Full Professional)</div>
+                    <div class="skill-item">Hebrew (Elementary)</div>
+                    <div class="skill-item">German (Elementary)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PORTUGUESE VERSION -->
+        <div class="lang-content lang-hidden" id="lang-pt" data-lang="pt">
+            <div class="header">
+                <div class="name-title">
+                    <h1 class="name">FELIPE ARON NUDELMAN</h1>
+                    <p class="title">Engenharia da Computação | Desenvolvimento de Software | Blockchain & Cibersegurança</p>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">+55 11 98332-0296</div>
+                    <div class="contact-item">
+                        <a href="mailto:felipe.nudelman@gmail.com">felipe.nudelman@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <a href="https://linkedin.com/in/felipenudelman" target="_blank">linkedin.com/in/felipenudelman</a>
+                    </div>
+                    <div class="contact-item">
+                        <a href="https://github.com/aronfelipe" target="_blank">github.com/aronfelipe</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Resumo Profissional</h2>
+                <div class="description">
+                    Engenheiro da Computação com expertise em desenvolvimento de software, cibersegurança e tecnologias blockchain. Minha jornada profissional começou aos 16 anos, despertando minha paixão por soluções tecnológicas seguras e eficientes. Fundei e liderei equipe de Engenharia da Computação e Blockchain no Insper, conquistando primeiro lugar no BTG Pactual Code Challenge. Experiência em plataformas DeFi, smart contracts e desenvolvimento full-stack com capacidade comprovada de entregar soluções escaláveis para setores de fintech e tecnologia.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Experiência Profissional</h2>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Engenheiro de Cloud Júnior</div>
+                        <div class="date">Ago 2025 - Set 2025</div>
+                    </div>
+                    <div class="company">Charla | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Liderei a nova área de Ops, Cloud e Infraestrutura na Charla</li>
+                            <li>Desenvolvi ferramentas de automação de deploy para AWS, Azure e GCP</li>
+                            <li>Fiz treinamentos AWS SkillBuilder</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Analista de Pesquisa e Dados</div>
+                        <div class="date">Abr 2025 - Jun 2025</div>
+                    </div>
+                    <div class="company">TGT - Powered by ISG | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Liderei iniciativas de tecnologia para projetos de pesquisa ISG (IPL, ISG Provider Lens)</li>
+                            <li>Construí ferramentas de web scraping e automação de dados</li>
+                            <li>Colaborei com a área de vendas para desenvolver a Central TGT, uma solução tipo PowerBI para organização de clientes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Engenheiro de Software</div>
+                        <div class="date">Jul 2022 - Out 2022</div>
+                    </div>
+                    <div class="company">eNor Digital Assets | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Arquitetei processos blockchain avançados e estratégias de trading algorítmico usando Node.js, Ethereum e redes Polygon</li>
+                            <li>Implementei protocolos de cibersegurança melhorando a segurança do sistema em 35%</li>
+                            <li>Otimizei processos através de automação e smart contracts, alcançando redução de 25% em custos</li>
+                            <li>Construi sistemas de processamento de dados de mercado em tempo real lidando com 10.000+ transações por segundo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Estagiário de Verão - Cloud & Engenharia</div>
+                        <div class="date">Dez 2020 - Jan 2021</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Desenvolvi Pactual Overflow, plataforma interna inspirada no Stack Overflow usando Node.js e Next.js, servindo 500+ usuários</li>
+                            <li>Implementei soluções robustas de cibersegurança para proteção de dados e infraestrutura de segurança em nuvem</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Estagiário de Inverno - Cibersegurança (Yellow Team)</div>
+                        <div class="date">Jun 2020 - Ago 2020</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Automatizei processos de segurança em nuvem usando Python e AWS, melhorando postura de segurança em 30%</li>
+                            <li>Aprimorei gestão de identidade e acesso com princípios de segurança zero-trust</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Estagiário de Verão - Cibersegurança (Yellow Team)</div>
+                        <div class="date">Dez 2019 - Fev 2020</div>
+                    </div>
+                    <div class="company">BTG Pactual | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Automatizei processos de IAM, otimizando sistemas de autenticação e controle de acesso</li>
+                            <li>Desenvolvi soluções de controle de acesso usando AWS e Microsoft Azure com reduções significativas de custos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Analista de Tecnologia e Diretor</div>
+                        <div class="date">Jan 2017 - Dez 2020</div>
+                    </div>
+                    <div class="company">Blockchain Insper | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Liderei desenvolvimento do Blockchain Insper Core suportando protocolos Ethereum, Stellar e IPFS</li>
+                            <li>Criei currículo de educação blockchain alcançando 5.000+ espectadores</li>
+                            <li>Gerenciei equipe técnica de 12+ desenvolvedores em iniciativas blockchain de ponta</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Estagiário de Desenvolvimento de Software</div>
+                        <div class="date">Dez 2017 - Jan 2019</div>
+                    </div>
+                    <div class="company">Instituto Nacional de Resíduos | São Paulo, Brasil</div>
+                    <div class="description">
+                        <ul>
+                            <li>Desenvolvi plataforma abrangente de orçamentos para serviços de reciclagem, melhorando eficiência em 40%</li>
+                            <li>Construi sistemas automatizados de relatórios e dashboards de análise de dados</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Formação Acadêmica</h2>
+                <div class="education-item">
+                    <div class="degree">Bacharelado em Engenharia da Computação</div>
+                    <div class="institution">Insper Instituto de Ensino e Pesquisa – São Paulo, Brasil</div>
+                    <div class="date">Concluído em Novembro 2024</div>
+                    <div class="education-details">
+                        Especialização em Processamento de Linguagem Natural (NLP) e Machine Learning. Desenvolvi projetos inovadores incluindo bots de trading e classificadores de análise de sentimento. Experiência prática com programação VHDL e implementação FPGA. Projeto de conclusão sobre sistemas blockchain distribuídos com foco em otimização de escalabilidade e segurança.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Prêmios & Reconhecimentos</h2>
+                <div class="award">
+                    <div class="award-title">BTG Pactual Code Challenge – 1° Lugar</div>
+                    <div class="award-description">
+                        Desenvolvi uma plataforma inovadora de negociação de derivativos baseada em blockchain utilizando JavaScript, Node.js, IPFS e Ethereum. Demonstrei compreensão avançada de princípios de finanças descentralizadas e design de arquitetura escalável, competindo contra mais de 200 equipes das melhores universidades do Brasil.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Competências Técnicas</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">JavaScript / TypeScript</div>
+                    <div class="skill-item">Python</div>
+                    <div class="skill-item">Solidity</div>
+                    <div class="skill-item">React / Next.js</div>
+                    <div class="skill-item">Node.js</div>
+                    <div class="skill-item">AWS / Azure / GCP</div>
+                    <div class="skill-item">Blockchain / Web3</div>
+                    <div class="skill-item">Cibersegurança</div>
+                    <div class="skill-item">Machine Learning / NLP</div>
+                    <div class="skill-item">DevOps / CI/CD</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Idiomas</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">Português (Nativo)</div>
+                    <div class="skill-item">Inglês (Fluente)</div>
+                    <div class="skill-item">Hebraico (Básico)</div>
+                    <div class="skill-item">Alemão (Básico)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+
+        function switchLang(lang) {
+            currentLang = lang;
+            
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.add('lang-hidden');
+            });
+            
+            document.getElementById('lang-' + lang).classList.remove('lang-hidden');
+            
+            document.querySelectorAll('.language-toggle .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(lang + 'Btn').classList.add('active');
+        }
+
+        document.getElementById('pdfBtn').addEventListener('click', function() {
+            const langContent = document.getElementById('lang-' + currentLang);
+            const filename = `Felipe_Aron_Nudelman_CV_${currentLang.toUpperCase()}.pdf`;
+            
+            const controls = document.querySelector('.controls');
+            const glows = document.querySelectorAll('.glow');
+            
+            controls.style.display = 'none';
+            glows.forEach(g => g.style.display = 'none');
+            
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            
+            html2pdf().set(opt).from(langContent).save().then(() => {
+                controls.style.display = 'flex';
+                glows.forEach(g => g.style.display = 'block');
+            });
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            const glow1 = document.querySelector('.glow-1');
+            const glow2 = document.querySelector('.glow-2');
+            
+            if (glow1 && glow2) {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                glow1.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+                glow2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
